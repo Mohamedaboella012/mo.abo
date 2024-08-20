@@ -1,0 +1,75 @@
+<html></html>
+
+<?php
+
+include 'session.php';
+include 'dbc.php';
+
+$sql ='SELECT * FROM posts' ;
+$result = $con->query($sql);
+
+?>
+
+</body>
+</html>
+<?php
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Posts with Images</title>
+    <style>
+        .post-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            border: 1px solid #ccc;
+            padding: 15px;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+
+        .post-header {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .post-content {
+            text-align: center;
+            margin-bottom: 10px;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .post-content img {
+            width: 200px; /* تحديد عرض الصورة */
+            height: 150px; /* تحديد ارتفاع الصورة */
+            border-radius: 10px;
+        }
+
+        .post-date {
+            text-align: right;
+            font-size: 12px;
+            color: #777;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <?php
+    if ($result->num_rows > 0) {
+        while($row = $result->fetch_assoc()) {
+            echo "<div class='post-container'>";
+            echo "<div class='post-header'>Post ID: " . htmlspecialchars($row["id"]) . "</div>";
+            echo "<div class='post-content'>" . htmlspecialchars($row['post_text']) . "</div>";
+            echo "<img src='" . htmlspecialchars($row["file_path"]) . "' alt='" . htmlspecialchars($row["file_name"]) . "' style='width: 525px; height: 600px;'>";
+            echo "<div class='post-date'>Posted on: " . htmlspecialchars($row["created_at"]) . "</div>";
+            echo "</div>";
+        }
+    } else {
+        echo "No posts found";
+    }
+    ?>
+</body>
+</html>
